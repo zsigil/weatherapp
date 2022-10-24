@@ -1,5 +1,7 @@
 # weatherapp
 
+Vue3 - Tailwind css application from 'The Net Ninja' & 'johnkomarnicki' on YouTube.
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
