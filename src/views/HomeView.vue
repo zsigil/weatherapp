@@ -17,7 +17,7 @@
         <p v-if="searchError">Ooooops, something went wrong.</p>
         <p v-if="searchResults == '404'">No results for query.</p>
         <template v-else>
-          <li v-for="(sR, i) in searchResults" key="i">
+          <li v-for="(sR, i) in searchResults" key="i" @click="previewCity(sR)">
             {{ sR.name.official }} - {{ sR.capital[0] }}
           </li>
         </template>
@@ -29,6 +29,22 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const previewCity = (country) => {
+  const capital = country.capital[0];
+  router.push({
+    name: "city",
+    params: { city: capital },
+    query: {
+      lat: country.latlng[0],
+      lng: country.latlng[1],
+      preview: true,
+    },
+  });
+};
 
 const searchQuery = ref("");
 const queryTimeout = ref(null);
