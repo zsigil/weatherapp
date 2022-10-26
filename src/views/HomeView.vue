@@ -14,9 +14,13 @@
         v-if="searchResults"
         class="absolute bg-weather-secondary text-white w-full shadow-md py-2 px-1 top-[66px]"
       >
-        <li v-for="(sR, i) in searchResults" key="i">
-          {{ sR.name.official }} - {{ sR.capital[0] }}
-        </li>
+        <p v-if="searchError">Ooooops, something went wrong.</p>
+        <p v-if="searchResults == '404'">No results for query.</p>
+        <template v-else>
+          <li v-for="(sR, i) in searchResults" key="i">
+            {{ sR.name.official }} - {{ sR.capital[0] }}
+          </li>
+        </template>
       </ul>
     </div>
   </main>
@@ -28,21 +32,32 @@ import axios from "axios";
 
 const searchQuery = ref("");
 const queryTimeout = ref(null);
-const searchResults = ref(null);
+let searchResults = ref(null);
+let searchError = ref(true);
 
 const getSearchResults = () => {
   clearTimeout(queryTimeout.value);
 
   queryTimeout.value = setTimeout(async () => {
     if (searchQuery.value) {
-      const result = await axios.get(
-        `https://restcountries.com/v3.1/name/${searchQuery.value}`
-      );
-      searchResults.value = result.data;
-      console.log(searchResults.value);
+      searchResults.value = [];
+      searchError.value = false;
+      try {
+        const result = await axios.get(
+          `https://restcountries.com/v3.1/name/${searchQuery.value}`
+        );
+        searchResults.value = result.data;
+        console.log(searchResults.value);
+      } catch (e) {
+        searchResults.value = e.response.data.status;
+        searchResults.value == "404"
+          ? (searchError.value = false)
+          : (searchError.value = true);
+      }
+
       return;
     }
     searchResults.value = null;
-  }, 300);
+  }, 1300);
 };
 </script>
