@@ -34,7 +34,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const previewCity = (country) => {
-  const countryName = country.name.official;
+  const countryName = country.name.common;
   router.push({
     name: "country",
     params: { country: countryName },
