@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import CityView from '../views/CityView.vue'
+import CountryView from '../views/CountryView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,9 +11,9 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/weather/:city',
-      name: 'city',
-      component: CityView
+      path: '/covidcases/:country',
+      name: 'country',
+      component: CountryView
     },
   ]
 })

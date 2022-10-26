@@ -34,10 +34,10 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const previewCity = (country) => {
-  const capital = country.capital[0];
+  const countryName = country.name.official;
   router.push({
-    name: "city",
-    params: { city: capital },
+    name: "country",
+    params: { country: countryName },
     query: {
       lat: country.latlng[0],
       lng: country.latlng[1],
