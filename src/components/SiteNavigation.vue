@@ -17,6 +17,8 @@
         ></i>
 
         <i
+          v-if="route.query.preview"
+          @click="addCountry"
           class="fa-solid fa-plus text-xl hover:text-weather-secondary duration-150 cursor-pointer"
         ></i>
       </div>
@@ -57,12 +59,37 @@
 
 <script setup>
 import { ref } from "vue";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRoute, useRouter } from "vue-router";
+import { uid } from "uid";
 import BaseModal from "./BaseModal.vue";
 
 const modalActive = ref(null);
 
 const toggleModal = () => {
   modalActive.value = !modalActive.value;
+};
+
+let savedCountries = ref([]);
+const route = useRoute();
+const router = useRouter();
+
+const addCountry = () => {
+  if (localStorage.getItem("savedCountries")) {
+    savedCountries.value = JSON.parse(localStorage.getItem("savedCountries"));
+  }
+  const locationObj = {
+    id: uid(),
+    country: route.params.country,
+    coords: {
+      lat: route.query.lat,
+      lng: route.query.lng,
+    },
+  };
+
+  savedCountries.value.push(locationObj);
+  localStorage.setItem("savedCountries", JSON.stringify(savedCountries.value));
+  let query = Object.assign({}, route.query);
+  delete query.preview;
+  router.replace({ query });
 };
 </script>
