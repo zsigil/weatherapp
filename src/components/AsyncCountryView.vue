@@ -42,12 +42,20 @@
         }}%
       </p>
     </div>
+
+    <div
+      @click="removeCountry"
+      class="flex items-center py-12 text-white gap-2 cursor-pointer duration-150 hover:text-red-500"
+    >
+      <i class="fa-solid fa-trash text-xl"></i>
+      Remove country
+    </div>
   </div>
 </template>
 
 <script setup>
 import axios from "axios";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const country = route.params.country;
@@ -65,4 +73,15 @@ const getData = async () => {
 };
 
 const apiData = await getData();
+
+const router = useRouter();
+const removeCountry = () => {
+  const countries = JSON.parse(localStorage.getItem("savedCountries"));
+  const country = apiData["All"].country;
+
+  const newCountries = countries.filter((c) => c.country !== country);
+
+  localStorage.setItem("savedCountries", JSON.stringify(newCountries));
+  router.push({ name: "home" });
+};
 </script>
