@@ -8,14 +8,25 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: {
+        title: 'Home'
+      }
     },
     {
       path: '/covidcases/:country',
       name: 'country',
-      component: CountryView
+      component: CountryView,
+      meta: {
+        title: 'Country'
+      }
     },
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  document.title = `${to.params.country ?? to.meta.title}`
+  next()
 })
 
 export default router
