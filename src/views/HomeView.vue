@@ -28,7 +28,7 @@
       <Suspense>
         <CountryList />
         <template #fallback>
-          <p>Loading...</p>
+          <CountryCardSkeleton />
         </template>
       </Suspense>
     </div>
@@ -40,6 +40,7 @@ import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import CountryList from "../components/CountryList.vue";
+import CountryCardSkeleton from "../components/CountryCardSkeleton.vue";
 
 const router = useRouter();
 
